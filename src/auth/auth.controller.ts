@@ -10,10 +10,10 @@ import {
 import { AuthService } from './auth.service';
 import { SignInDto } from './dto/signin.dto';
 import { Response } from 'express';
-import { signUpDto } from './dto/signup.dto';
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { CookieService } from 'src/cookie/cookie.service';
+import { CookieService } from 'src/utils/cookie/cookie.service';
 import { AuthGuard } from './auth.guard';
+import { SignUpDto } from './dto/signup.dto';
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
@@ -24,7 +24,7 @@ export class AuthController {
   @Post('sign-up')
   @ApiCreatedResponse()
   async signUp(
-    @Body() signUpDto: signUpDto,
+    @Body() signUpDto: SignUpDto,
     @Res({ passthrough: true }) res: Response,
   ) {
     const { token } = await this.authService.signUp(

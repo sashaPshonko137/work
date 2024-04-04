@@ -14,7 +14,7 @@ import { CartsService } from './carts.service';
 import { CreateCartDto } from './dto/create-cart.dto';
 import { UpdateCartDto } from './dto/update-cart.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { AdminGuard } from 'src/auth/admin.guard';
+import { AdminGuard } from 'src/utils/guards/admin.guard';
 @ApiTags('carts')
 @Controller('carts')
 export class CartsController {

@@ -18,7 +18,7 @@ import { UpdateImageDto } from './dto/update-image.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { fileStorage } from 'src/images/storage';
 import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
-import { AdminGuard } from 'src/auth/admin.guard';
+import { AdminGuard } from 'src/utils/guards/admin.guard';
 @ApiTags('images')
 @Controller('images')
 export class ImagesController {

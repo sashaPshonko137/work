@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { PrismaService } from 'src/utils/prisma.service';
+import { PrismaService } from 'src/utils/db/prisma.service';
 
 @Injectable()
 export class UsersService {
@@ -15,6 +15,16 @@ export class UsersService {
     const offset = (page - 1) * limit;
     const totalCount = await this.db.users.count({ where: { deleted: false } });
     const users = await this.db.users.findMany({
+      select: {
+        hash: false,
+        salt: false,
+        id: true,
+        email: true,
+        surname: true,
+        name: true,
+        lastname: true,
+        role: true,
+      },
       where: { deleted: false },
       take: limit,
       skip: offset,
