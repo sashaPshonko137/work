@@ -5,10 +5,12 @@ import { ValidationPipe } from '@nestjs/common';
 import * as express from 'express';
 import { join } from 'path';
 import * as cookieParser from 'cookie-parser';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
+  const configService = app.get(ConfigService);
+  const port = configService.get<number>('PORT');
   const config = new DocumentBuilder().build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
@@ -19,6 +21,9 @@ async function bootstrap() {
 
   app.use(cookieParser());
 
-  await app.listen(3000);
+  await app.listen(port, () => {
+    console.log(`Application is running on: http://localhost:${port}`);
+    console.log(`Swagger is running on: http://localhost:${port}/docs`);
+  });
 }
 bootstrap();

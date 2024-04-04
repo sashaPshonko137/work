@@ -11,9 +11,11 @@ import { AuthModule } from './auth/auth.module';
 import { PasswordService } from './password/password.service';
 import { CookieService } from './cookie/cookie.service';
 import { JwtService } from '@nestjs/jwt';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
     UsersModule,
     ProductsModule,
     TypesModule,
