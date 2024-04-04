@@ -5,12 +5,11 @@ import { PrismaService } from 'src/utils/prisma.service';
 
 @Injectable()
 export class UsersService {
-  constructor(private db: PrismaService)  {}
+  constructor(private db: PrismaService) {}
   async create(createUserDto: CreateUserDto) {
-    const user = await this.db.users.create({data: {...createUserDto}});
+    const user = await this.db.users.create({ data: { ...createUserDto } });
     return user;
   }
-
 
   async findAll(page: number = 1, limit: number = 16) {
     const offset = (page - 1) * limit;
@@ -24,15 +23,15 @@ export class UsersService {
   }
 
   async findOne(id: number) {
-    const user = await this.db.users.findFirst({where: {id}});
+    const user = await this.db.users.findFirst({ where: { id } });
     if (!user) {
       throw new NotFoundException('id указан неверно.');
-    };
+    }
     return user;
   }
 
   async findOneByEmail(email: string) {
-    const user = await this.db.users.findFirst({where: {email}});
+    const user = await this.db.users.findFirst({ where: { email } });
     return user;
   }
 
@@ -40,8 +39,8 @@ export class UsersService {
     const user = await this.findOne(id);
     if (!user) {
       throw new NotFoundException('id указан неправильно.');
-    };
-    await this.db.users.update({where: {id}, data: {...updateUserDto}});
+    }
+    await this.db.users.update({ where: { id }, data: { ...updateUserDto } });
     return 'Пользователь обновлён.';
   }
 
@@ -49,22 +48,21 @@ export class UsersService {
     const user = await this.findOne(id);
     if (!user) {
       throw new NotFoundException('id указан неправильно.');
-    };
+    }
 
-    const cart = await this.db.carts.findFirst({where: {user_id: id}})
-    if (cart) 
+    const cart = await this.db.carts.findFirst({ where: { user_id: id } });
+    if (cart)
+      await this.db.carts_products.deleteMany({ where: { cart_id: cart.id } });
 
-    await this.db.carts_products.deleteMany({where: {cart_id: cart.id}})
-    
     await this.db.users.update({
       where: {
-        id
+        id,
       },
       data: {
-        deleted: true
-      }
-    })
+        deleted: true,
+      },
+    });
 
-    return 'Пользователь удалён.'
+    return 'Пользователь удалён.';
   }
-};
+}

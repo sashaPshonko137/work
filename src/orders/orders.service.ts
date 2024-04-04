@@ -5,10 +5,10 @@ import { PrismaService } from 'src/utils/prisma.service';
 
 @Injectable()
 export class OrdersService {
-  constructor(private db: PrismaService)  {}
+  constructor(private db: PrismaService) {}
   async create(createOrderDto: CreateOrderDto) {
-    await this.db.orders.create({data: {...createOrderDto}});
-    return 'Покупка записана.'
+    await this.db.orders.create({ data: { ...createOrderDto } });
+    return 'Покупка записана.';
   }
 
   async findAll(page: number = 1, limit: number = 16) {
@@ -22,7 +22,7 @@ export class OrdersService {
   }
 
   async findOne(id: number) {
-    const order = await this.db.orders.findFirst({where: {id}});
+    const order = await this.db.orders.findFirst({ where: { id } });
     if (!order) {
       throw new NotFoundException('id указан неверно');
     }
@@ -30,20 +30,23 @@ export class OrdersService {
   }
 
   async update(id: number, updateOrderDto: UpdateOrderDto) {
-     const order = await this.findOne(id);
-     if (!order) {
+    const order = await this.findOne(id);
+    if (!order) {
       throw new NotFoundException('id указан неверно');
     }
-    const updatedUser = await this.db.orders.update({where: {id}, data: {...updateOrderDto}});
+    const updatedUser = await this.db.orders.update({
+      where: { id },
+      data: { ...updateOrderDto },
+    });
     return order;
   }
 
   async remove(id: number) {
     const order = await this.findOne(id);
     if (!order) {
-     throw new NotFoundException('id указан неверно');
-   }
-   await this.db.orders.delete({where: {id}});
-   return 'Покупка удалена.'
+      throw new NotFoundException('id указан неверно');
+    }
+    await this.db.orders.delete({ where: { id } });
+    return 'Покупка удалена.';
   }
 }

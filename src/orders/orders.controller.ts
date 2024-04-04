@@ -1,4 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Query, ParseIntPipe } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+  Query,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
@@ -19,7 +30,7 @@ export class OrdersController {
   @UseGuards(AdminGuard)
   async findAll(
     @Query('page') page: number = 1,
-    @Query('limit', ParseIntPipe) limit: number = 16
+    @Query('limit', ParseIntPipe) limit: number = 16,
   ) {
     return this.ordersService.findAll(page, limit);
   }

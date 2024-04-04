@@ -1,4 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, ParseIntPipe, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+  ParseIntPipe,
+  Query,
+} from '@nestjs/common';
 import { TypesService } from './types.service';
 import { CreateTypeDto } from './dto/create-type.dto';
 import { UpdateTypeDto } from './dto/update-type.dto';
@@ -19,7 +30,7 @@ export class TypesController {
   @Get()
   async findAll(
     @Query('page') page: number = 1,
-    @Query('limit', ParseIntPipe) limit: number = 16
+    @Query('limit', ParseIntPipe) limit: number = 16,
   ) {
     return this.typesService.findAll(page, limit);
   }

@@ -40,7 +40,13 @@ export class ProductsController {
   ) {
     let filterObject: any = { deleted: false };
 
-    return this.productsService.findAll(page, limit, filterObject, minPrice, maxPrice);
+    return this.productsService.findAll(
+      page,
+      limit,
+      filterObject,
+      minPrice,
+      maxPrice,
+    );
   }
 
   @Get(':id')

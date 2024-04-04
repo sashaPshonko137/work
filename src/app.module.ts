@@ -13,7 +13,16 @@ import { CookieService } from './cookie/cookie.service';
 import { JwtService } from '@nestjs/jwt';
 
 @Module({
-  imports: [UsersModule, ProductsModule, TypesModule, ImagesModule, CartsModule, OrdersModule, CartsProductsModule, AuthModule, ],
+  imports: [
+    UsersModule,
+    ProductsModule,
+    TypesModule,
+    ImagesModule,
+    CartsModule,
+    OrdersModule,
+    CartsProductsModule,
+    AuthModule,
+  ],
   controllers: [],
   providers: [PrismaService, PasswordService, CookieService, JwtService],
 })

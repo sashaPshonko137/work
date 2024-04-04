@@ -7,30 +7,42 @@ import { TypesService } from 'src/types/types.service';
 
 @Injectable()
 export class ProductsService {
-  constructor(private db: PrismaService, private imagesService: ImagesService, private typesService: TypesService)  {}
+  constructor(
+    private db: PrismaService,
+    private imagesService: ImagesService,
+    private typesService: TypesService,
+  ) {}
   async create(createProductDto: CreateProductDto) {
     const image = await this.imagesService.findOne(createProductDto.image_id);
     if (!image) {
-      throw new NotFoundException('Такого изображения не существует.')
+      throw new NotFoundException('Такого изображения не существует.');
     }
     const type = await this.typesService.findOne(createProductDto.type_id);
     if (!type) {
-      throw new NotFoundException('Такого типа не существует.')
+      throw new NotFoundException('Такого типа не существует.');
     }
-    await this.db.products.create({data: {...createProductDto}});
+    await this.db.products.create({ data: { ...createProductDto } });
     return 'Продукт создан.';
-  };
+  }
 
-  async findAll(page: number = 1, limit: number = 16, filter?: any, minPrice?: number, maxPrice?: number) {
+  async findAll(
+    page: number = 1,
+    limit: number = 16,
+    filter?: any,
+    minPrice?: number,
+    maxPrice?: number,
+  ) {
     const offset = (page - 1) * limit;
-    let whereClause = filter ? { ...filter, deleted: false } : { deleted: false };
+    let whereClause = filter
+      ? { ...filter, deleted: false }
+      : { deleted: false };
 
     if (minPrice !== undefined && maxPrice !== undefined) {
       whereClause = {
         ...whereClause,
         price: {
-          gte: minPrice, 
-          lte: maxPrice, 
+          gte: minPrice,
+          lte: maxPrice,
         },
       };
     }
@@ -46,10 +58,10 @@ export class ProductsService {
   }
 
   async findOne(id: number) {
-    const product = await this.db.products.findFirst({where: {id}});
+    const product = await this.db.products.findFirst({ where: { id } });
     if (!product) {
       throw new NotFoundException('id указан неверно.');
-    };
+    }
     return product;
   }
 
@@ -58,8 +70,11 @@ export class ProductsService {
     const product = await this.findOne(id);
     if (!product) {
       throw new NotFoundException('id указан неправильно.');
-    };
-    const updatedProduct = await this.db.products.update({where: {id}, data: {...updateProductDto}});
+    }
+    const updatedProduct = await this.db.products.update({
+      where: { id },
+      data: { ...updateProductDto },
+    });
     return updatedProduct;
   }
 
@@ -67,10 +82,10 @@ export class ProductsService {
     const product = await this.findOne(id);
     if (!product) {
       throw new NotFoundException('id указан неправильно.');
-    };
+    }
 
     product.deleted = await true;
 
-    return 'Продукт удалён.'
+    return 'Продукт удалён.';
   }
 }

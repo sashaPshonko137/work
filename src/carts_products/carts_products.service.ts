@@ -7,7 +7,7 @@ import { PrismaService } from 'src/utils/prisma.service';
 export class CartsProductsService {
   constructor(private db: PrismaService) {}
   async create(createCartsProductDto: CreateCartsProductDto) {
-    await this.db.carts_products.create({data: {...createCartsProductDto}});
+    await this.db.carts_products.create({ data: { ...createCartsProductDto } });
     return 'Продукт в корзине созддан.';
   }
 
@@ -22,7 +22,9 @@ export class CartsProductsService {
   }
 
   async findOne(id: number) {
-    const cart_product = await this.db.carts_products.findFirst({where: {id}});
+    const cart_product = await this.db.carts_products.findFirst({
+      where: { id },
+    });
     if (!cart_product) {
       throw new NotFoundException('id уазан неверно.');
     }
@@ -34,8 +36,11 @@ export class CartsProductsService {
     if (!cart_product) {
       throw new NotFoundException('id уазан неверно.');
     }
-    await this.db.carts_products.update({where: {id}, data: {...cart_product}});
-    return 'Продукт в корзине удалён.'
+    await this.db.carts_products.update({
+      where: { id },
+      data: { ...cart_product },
+    });
+    return 'Продукт в корзине удалён.';
   }
 
   async remove(id: number) {
@@ -43,7 +48,7 @@ export class CartsProductsService {
     if (!cart_product) {
       throw new NotFoundException('id уазан неверно.');
     }
-    await this.db.carts_products.delete({where: {id}});
+    await this.db.carts_products.delete({ where: { id } });
     return 'Продукт в корзине удалён.';
   }
 }

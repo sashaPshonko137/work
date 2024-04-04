@@ -6,10 +6,13 @@ import { ImagesService } from 'src/images/images.service';
 
 @Injectable()
 export class TypesService {
-  constructor(private db: PrismaService, private imagesService: ImagesService)  {}
+  constructor(
+    private db: PrismaService,
+    private imagesService: ImagesService,
+  ) {}
   async create(createTypeDto: CreateTypeDto) {
     const image = await this.imagesService.findOne(createTypeDto.image_id);
-    await this.db.types.create({data: {...createTypeDto}});
+    await this.db.types.create({ data: { ...createTypeDto } });
     return 'Тип создан.';
   }
 
@@ -24,7 +27,7 @@ export class TypesService {
   }
 
   async findOne(id: number) {
-    const type = await this.db.types.findFirst({where: {id}});
+    const type = await this.db.types.findFirst({ where: { id } });
     return type;
   }
 
@@ -34,8 +37,8 @@ export class TypesService {
     const type = await this.findOne(id);
     if (!type) {
       throw new NotFoundException('id указан неверно.');
-    };
-    await this.db.types.update({where: {id}, data: {...UpdateTypeDto}});
+    }
+    await this.db.types.update({ where: { id }, data: { ...UpdateTypeDto } });
     return 'Тип обновлён.';
   }
 
@@ -43,8 +46,8 @@ export class TypesService {
     const type = await this.findOne(id);
     if (!type) {
       throw new NotFoundException('id указан неверно.');
-    };
-    await this.db.types.delete({where: {id}});
+    }
+    await this.db.types.delete({ where: { id } });
     return 'Пользователь удалён.';
   }
 }
